@@ -66,6 +66,14 @@ do
 	[ -n "$templateid" ] || continue
 	newowner=$(dbq "select uid from template_pool where oid = $templateid;")
 
+	# do not chown when template owned by oneadmin or serveradmin
+	oldowner=$(dbq "select uid from vm_pool where oid = $oid;")
+	case $newowner in
+		0|1)
+			continue
+			;;
+	esac
+
 	# treat any error before new name is detected
 	if [ -n "$newowner" ]
 	then
