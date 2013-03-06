@@ -64,7 +64,9 @@ do
 
 	templateid=$(dbq "select body from vm_pool where oid = $oid;"  | xmlstarlet fo | xmlstarlet sel -t -v '//VM/TEMPLATE/TEMPLATE_ID')
 	[ -n "$templateid" ] || continue
-	newowner=$(dbq "select uid from template_pool where oid = $templateid;")
+	templateowner=$(dbq "select uid from template_pool where oid = $templateid;")
+
+	newowner="$templateowner"
 
 	# do not chown when template owned by oneadmin or serveradmin
 	oldowner=$(dbq "select uid from vm_pool where oid = $oid;")
