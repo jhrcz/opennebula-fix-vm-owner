@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/bash -x
+exit 0
 
 sleep 1
 
@@ -9,6 +10,12 @@ sleep 1
 # Script operates on all "live" VMs or on one define by argument.
 # The second case is useful for use as a VM_HOOK to automagicaly
 # set VM names.
+#
+# Requires password-less login to mysql, db opennebula and user opennebula.
+# Password for db user could configured with in ~oneadmin/.my.cnf:
+# [mysql]
+# user=opennebula
+# password=XXXX
 #
 ######################################################################
 
@@ -35,7 +42,8 @@ qdebug && \
 ######################################################################
 
 # command to "connect" to the one db
-DB="sqlite3 /var/lib/one/one.db"
+#DB="sqlite3 /var/lib/one/one.db"
+DB="mysql -N -u opennebula opennebula"
 
 ######################################################################
 # END CONFIGURATION
